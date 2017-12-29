@@ -1,0 +1,1 @@
+Java repository where you can find several examples. If you need a concrete example, please visit http://manueljaenlopez.ddns.net/ and get in touch with in Contact section.
