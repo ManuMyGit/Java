@@ -1,0 +1,16 @@
+.metadata
+.recommenders
+RemoteSystemsTempFiles
+restful-web-services
+qqq
+
+target/
+.mvn
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
