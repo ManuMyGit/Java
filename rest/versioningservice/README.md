@@ -19,6 +19,10 @@ Which type of versioning is better? You have to take into account several things
  - Caching: it's complicated in 3rd and 4th.
  - Can we execute the request on the browser? If so, you must choose between 1st and 2nd because to modify headers you need a rest client (such as postman).
  - API Documentation. It's easier in 1st/2nd than 3rd/4th.
+
+# Actuator
+- URL: http://localhost:8080/application.html
+- No user needed
  
 # Test
 Test with MockMvc and reactive WebTestClient
