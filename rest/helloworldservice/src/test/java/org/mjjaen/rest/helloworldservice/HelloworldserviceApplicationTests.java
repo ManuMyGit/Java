@@ -40,7 +40,7 @@ public class HelloworldserviceApplicationTests {
 	}
 	
     @Test
-    public void envEndpointNotHiddenWebFlux() throws Exception {
+    public void envEndpointNotHiddenWebFlux()  {
     	client.get().uri("/webservices/hello-world?name=Turgon")
         	.exchange()
         	.expectStatus().isOk()
