@@ -1,0 +1,7 @@
+insert into teacher(name, email, birth_date, created_at, updated_at) values('Andrew Jenkins', 'email1@gmail.com', '1950-01-01', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+insert into teacher(name, email, birth_date, created_at, updated_at) values('Amy Stevenson', 'email2@gmail.com', '1960-01-01', CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+
+insert into student(name, email, teacher_id, created_at, updated_at) values('Student 1 teacher 1', 'email3@gmail.com', (select id from teacher where name = 'Andrew Jenkins'), CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+insert into student(name, email, teacher_id, created_at, updated_at) values('Student 2 teacher 1', 'email4@gmail.com', (select id from teacher where name = 'Andrew Jenkins'), CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+insert into student(name, email, teacher_id, created_at, updated_at) values('Student 1 teacher 2', 'email5@gmail.com', (select id from teacher where name = 'Amy Stevenson'), CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+insert into student(name, email, teacher_id, created_at, updated_at) values('Student 2 teacher 2', 'email6@gmail.com', (select id from teacher where name = 'Amy Stevenson'), CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
