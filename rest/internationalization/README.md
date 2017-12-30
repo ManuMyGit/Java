@@ -7,6 +7,3 @@
 # Actuator
 - URL: http://localhost:8080/application.html
 - No user needed
-
-# Test
-- Testing with TestRestTemplate
