@@ -34,4 +34,3 @@
 	- public int filterOrder(): if you have more than one filter, such as loggin, security, ..., you can say the priority of the filters.
 	- public String filterType(): when should the filter be executed? pre, routing, post or only error requests.
 	- public Object run(): what the filter will do.
--
