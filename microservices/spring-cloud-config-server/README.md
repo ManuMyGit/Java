@@ -1,0 +1,11 @@
+# Spring cloud config server
+- You need a Git repository (either local or on cloud) in order to connect the server to that repository.
+- Each service will have its own configuration file.
+	- For example, limits-service service will have a configuration file named limits-service.properties.
+	- Besides, you can have one configuration per environment. For example, for limits-service service, if you have three environment (dev, qa and pro) you'll have: limits-service-dev.properties, limits-service-qa.properties and limits-service.properties.
+	- To access to each config file:
+		- Dev: http://localhost:8888/limits-service/dev
+		- QA: http://localhost:8888/limits-service/qa
+		- Pro: http://localhost:8888/limits-service/default
+	- In dev and qa you can see both dev/qa configuration and default configuration for those values which hasn't been defined on its configuration file. The priority is first dev/qa environment and then default environment.
+- It's essential to mark the SpringBootApplication class as @EnableConfigServer
