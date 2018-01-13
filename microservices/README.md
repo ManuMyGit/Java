@@ -47,4 +47,3 @@ Zipkin is a distributed tracing system. It helps gather timing data needed to tr
         - It uses ribbon to client load balancing.
         - It uses actuator and hal browser.
         - It uses sleuth, zipkin and amqp (Rabbit MQ) to centralized log.
-- Currency conversion service.
