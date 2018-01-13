@@ -2,7 +2,6 @@ package org.mjjaen.rest.jpacrudrestapi.common.exceptions;
 
 import java.util.Date;
 
-import org.mjjaen.rest.jpacrudrestapi.ExceptionResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

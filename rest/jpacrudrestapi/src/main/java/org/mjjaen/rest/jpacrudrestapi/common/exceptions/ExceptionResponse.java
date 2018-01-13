@@ -1,4 +1,4 @@
-package org.mjjaen.rest.jpacrudrestapi;
+package org.mjjaen.rest.jpacrudrestapi.common.exceptions;
 
 import java.util.Date;
 

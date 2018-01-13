@@ -1,14 +1,19 @@
 package org.mjjaen.rest.jpacrudrestapi.controller;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-
 import javax.validation.Valid;
-
 import org.mjjaen.rest.jpacrudrestapi.common.exceptions.DataNotFoundException;
 import org.mjjaen.rest.jpacrudrestapi.model.businessObject.Teacher;
 import org.mjjaen.rest.jpacrudrestapi.model.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.mvc.ControllerLinkBuilder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,26 +31,33 @@ public class TeacherController {
 	private TeacherService teacherService;
 	
 	@GetMapping
-	public List<Teacher> getAllTeachers(@RequestParam(required=false, defaultValue="false") boolean order, @RequestParam(required=false, defaultValue="nombre") String field) {
+	public List<Resource<Teacher>> getAllTeachers(@RequestParam(required=false, defaultValue="false") boolean order, @RequestParam(required=false, defaultValue="nombre") String field) {
+		List<Resource<Teacher>> listaResource = new ArrayList<Resource<Teacher>>();
 		List<Teacher> lista = teacherService.findAll(order, field);
-		if(lista != null)
-			return lista;
+		if(lista != null) {
+			Iterator<Teacher> iterator = lista.iterator();
+			while(iterator.hasNext()) {
+				Resource<Teacher> resource = getResourceFromTeacher(iterator.next());
+				listaResource.add(resource);
+			}
+			return listaResource;
+		}
 		else
 			throw new DataNotFoundException(String.format("Data doesn't exist"));
 	}
 	
 	@GetMapping(path="/{id}")
-	public Teacher getOneTeacher(@PathVariable(required= true) Integer id) {
+	public Resource<Teacher> getOneTeacher(@PathVariable(required= true) Integer id) {
 		Optional<Teacher> teacher = teacherService.findOneTeacher(id);
-		if(teacher.isPresent()) {
-			return teacher.get();
-		} else
+		if(teacher.isPresent())
+			return getResourceFromTeacher(teacher.get());
+		else
 			throw new DataNotFoundException(String.format("[id=%s] doesn't exist", id));
 	}
 	
 	@PostMapping
-	public Teacher createTeacher(@Valid @RequestBody Teacher teacher) {
-		return teacherService.save(teacher);
+	public Resource<Teacher> createTeacher(@Valid @RequestBody Teacher teacher) {
+		return getResourceFromTeacher(teacherService.save(teacher));
 	}
 	
 	@PutMapping(path="/{id}")
@@ -68,5 +80,12 @@ public class TeacherController {
 
 	public void setServicioteacher(TeacherService teacherService) {
 		this.teacherService = teacherService;
+	}
+	
+	private Resource<Teacher> getResourceFromTeacher(Teacher teacher) {
+		Resource<Teacher> resource = new Resource<Teacher>(teacher);
+		ControllerLinkBuilder linkToSelf = linkTo(methodOn(this.getClass()).getOneTeacher(teacher.getId()));
+		resource.add(linkToSelf.withSelfRel());
+		return resource;
 	}
 }
