@@ -33,6 +33,7 @@
 	    - push: insert an element on the top of the structure.
 	    - pop: returns and remove the element on the top of the structure.
 	    - peek: returns the element on the top of the structure.
+- There are samples in the code to measure the time of accessing, adding and removing of the different implementations of List interface. AOP and Configuration from properties are used as well. 
 # Queue interface
 - It represents a FIFO (first in - first out) structure.
 - This interface has the following implementations:
