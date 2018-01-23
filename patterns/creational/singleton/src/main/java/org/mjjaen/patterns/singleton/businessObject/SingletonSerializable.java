@@ -1,4 +1,4 @@
-package org.mjjaen.featuresjava.patterns.singleton.businessObject;
+package org.mjjaen.patterns.singleton.businessObject;
 
 import java.io.Serializable;
 

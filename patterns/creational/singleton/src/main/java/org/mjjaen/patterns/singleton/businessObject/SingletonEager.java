@@ -1,4 +1,4 @@
-package org.mjjaen.featuresjava.patterns.singleton.businessObject;
+package org.mjjaen.patterns.singleton.businessObject;
 
 /*
  * Esta implementación de Singleton se puede usar si instance no consume muchos recursos y no se esperan excepciones

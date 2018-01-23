@@ -1,4 +1,4 @@
-package org.mjjaen.featuresjava.patterns.singleton.businessObject;
+package org.mjjaen.patterns.singleton.businessObject;
 
 /*
  * Antes de Java 5, el modelo de memoria de java tenía un montón de problemas y las aproximaciones restantes de

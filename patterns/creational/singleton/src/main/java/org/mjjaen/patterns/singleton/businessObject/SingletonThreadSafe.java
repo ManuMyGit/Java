@@ -1,4 +1,4 @@
-package org.mjjaen.featuresjava.patterns.singleton.businessObject;
+package org.mjjaen.patterns.singleton.businessObject;
 
 /*
  * Esta implementación es como la implementación perezosa (SingletonLazy) pero ofrece seguridad entre hilos,

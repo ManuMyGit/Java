@@ -1,4 +1,4 @@
-package org.mjjaen.featuresjava.patterns.singleton.businessObject;
+package org.mjjaen.patterns.singleton.businessObject;
 
 /*
  * Usando reflexión es muy sencillo modificar la visibilidad de los constructores de singleton, haciendo esa

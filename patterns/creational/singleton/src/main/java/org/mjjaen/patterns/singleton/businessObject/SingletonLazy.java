@@ -1,4 +1,4 @@
-package org.mjjaen.featuresjava.patterns.singleton.businessObject;
+package org.mjjaen.patterns.singleton.businessObject;
 
 /*
  * Esta implementación se utiliza si instance consume mucha memoria y no se tiene que crear hasta que sea necesario

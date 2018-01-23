@@ -1,8 +1,8 @@
-package org.mjjaen.featuresjava.patterns.singleton;
+package org.mjjaen.patterns.singleton;
 
-import org.mjjaen.featuresjava.patterns.singleton.businessObject.Car;
-import org.mjjaen.featuresjava.patterns.singleton.businessObject.CarFactory;
-import org.mjjaen.featuresjava.patterns.singleton.businessObject.SingletonImplementation;
+import org.mjjaen.patterns.singleton.businessObject.Car;
+import org.mjjaen.patterns.singleton.businessObject.CarFactory;
+import org.mjjaen.patterns.singleton.businessObject.SingletonImplementation;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

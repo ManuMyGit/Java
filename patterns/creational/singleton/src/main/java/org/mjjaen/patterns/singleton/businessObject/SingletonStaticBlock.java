@@ -1,4 +1,4 @@
-package org.mjjaen.featuresjava.patterns.singleton.businessObject;
+package org.mjjaen.patterns.singleton.businessObject;
 
 /*
  * Similar a SingletonEager, con la diferencia de que el objeto instance se crea en un bloque estático que permite

@@ -1,4 +1,4 @@
-package org.mjjaen.featuresjava.patterns.singleton.businessObject;
+package org.mjjaen.patterns.singleton.businessObject;
 
 public class CarFactory {
 	public static Car createCar(SingletonImplementation singletonImplementation) {
