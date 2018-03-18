@@ -11,6 +11,11 @@
     - Resources are protected by authorities (roles), but in the code you can check also how to use scopes (read, write, ...).
     - A complete set of integration tests to test public and private tests, taking into account the authorities to access those resources as well as to test refresh token.
     - Client-credentials and password grants.
+    - URIs
+    	- /public (public access)
+    	- /private (just ADMIN users)
+    	- /cities and /cities/{id} (ADMIN and STANDARD users)
+    	- /oauth/token (to get access token)
 
 # Definition
 - OAuth 2 is an authorization framework that enables applications to obtain limited access to user accounts without using directly user credentials. It works by delegating user authentication to the service that hosts the user account, and authorizing third-party applications to access the user account. Oauth2 is based on roles and grant types.
