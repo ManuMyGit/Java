@@ -1,0 +1,43 @@
+package org.mjjaen.rest.oauth2securityserver.configuration;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+
+@Configuration
+@EnableResourceServer
+public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
+	@Autowired
+    private ResourceServerTokenServices tokenServices;
+	
+    @Value("${security.jwt.resource-ids}")
+    private String resourceIds;
+    
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        resources.resourceId(resourceIds).tokenServices(tokenServices);
+    }
+	
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		http
+			//.anonymous().disable() Not enabled because anybody can access to public resource 
+			.authorizeRequests()
+			.antMatchers(HttpMethod.GET, "/public").permitAll()
+			.antMatchers(HttpMethod.GET, "/private").hasAuthority("ADMIN_USER")//.authenticated()
+			.antMatchers(HttpMethod.GET, "/cities/**").hasAnyAuthority("ADMIN_USER", "STANDARD_USER")//.authenticated()
+			/*.and()
+			.authorizeRequests()
+			.antMatchers("/private").access("#oauth2.hasScope('read') or #oauth2.hasScope('write')")
+			.antMatchers("/cities/**").access("#oauth2.hasScope('read')")*/
+			.and()
+			.exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler());
+	}
+}

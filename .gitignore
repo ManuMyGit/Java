@@ -2,6 +2,7 @@
 .recommenders
 RemoteSystemsTempFiles
 restful-web-services
+notification
 qqq
 
 target/
