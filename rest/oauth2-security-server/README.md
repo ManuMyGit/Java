@@ -164,13 +164,13 @@ PASSWORD,REFRESH TOKEN GRANTS
 11. Access /private with admin user refresh token -> OK (200).
 
 CLIENT_CREDENTIAL GRANT WITH NO ADMIN CLIENT
-12. Get token with wrong authentication -> UNAUTHORIZED (401).
-13. Get token with correcto authentication -> OK (200).
-14. Access /cities and /cities/1 with client token -> OK (200).
-15. Access /private with client no admin token -> FORBIDDEN (403).
+1. Get token with wrong authentication -> UNAUTHORIZED (401).
+2. Get token with correcto authentication -> OK (200).
+3. Access /cities and /cities/1 with client token -> OK (200).
+4. Access /private with client no admin token -> FORBIDDEN (403).
 
 USERS
-16. Access /users with password grant and admin user -> OK (200).
-17. Access /users with password grant and standard user -> OK (200).
-18. Access /users with client_credentials grant -> OK (200).
-19. Access /users with with no user -> UNAUTHORIZED (401).
+1. Access /users with password grant and admin user -> OK (200).
+2. Access /users with password grant and standard user -> OK (200).
+3. Access /users with client_credentials grant -> OK (200).
+4. Access /users with with no user -> UNAUTHORIZED (401).
