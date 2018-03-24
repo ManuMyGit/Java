@@ -153,8 +153,8 @@ To dedice this, you can use the following diagram:
 - There are several ways to add a Filter:
 	1. Create a new Bean which returns a Filter. This'll apply to all requests. The Bean must be declared inside @Configuration context.
 	2. Create a class which implements Filter. If this class is anotated with @Component, the filter'll apply to all requests. It is mandatory to declare an order with @Order (@Order(Ordered.HIGHEST_PRECEDENCE), @Order(Ordered.LOWEST_PRECEDENCE), @Order(1), ...).
-	3. Create a class which implements Filter but outside @Configuration context. To apply this filter, you need to declare a @Bean inside @Configuration context which returns a FilterRegistrationBean object. In this object, you can choose the URL pattefdsrns where filt
-	4. Create a class which extends GenericFilterBean. You can use this filter in Spring Security in the method configure(HttpSecurity http) with addFilterBefore(filter, class), addFilterAfter(filter, class), addFilterAt(filter, class) and addFilter(filter) (in this case it is mandatory to declare an order in filter chain). It'll apply to all requests. Spring security filter order in chain filter is the followint:
+	3. Create a class which implements Filter (or extends GenericFilterBean) but outside @Configuration context. To apply this filter, you need to declare a @Bean inside @Configuration context which returns a FilterRegistrationBean object. In this object, you can choose the URL pattefdsrns where filt
+	4. Create a class which extends GenericFilterBean. You can use this filter in Spring Security in the method configure(HttpSecurity http) with addFilterBefore(filter, class), addFilterAfter(filter, class), addFilterAt(filter, class) and addFilter(filter) (in this case it is mandatory to declare an order in filter chain). It'll apply to all requests. Spring security filter order in chain filter is the following:
 		1. ChannelProcessingFilter, because it might need to redirect to a different protocol.
 		2. SecurityContextPersistenceFilter, so a SecurityContext can be set up in the SecurityContextHolder at the beginning of a web request, and any changes to the SecurityContext can be copied to the HttpSession when the web request ends (ready for use with the next web request).
 		3. ConcurrentSessionFilter, because it uses the SecurityContextHolder functionality but needs to update the SessionRegistry to reflect ongoing requests from the principal.
@@ -163,7 +163,9 @@ To dedice this, you can use the following diagram:
 		6. RememberMeAuthenticationFilter, so that if no earlier authentication processing mechanism updated the SecurityContextHolder, and the request presents a cookie that enables remember-me services to take place, a suitable remembered Authentication object will be put there.
 		7. AnonymousAuthenticationFilter, so that if no earlier authentication processing mechanism updated the SecurityContextHolder, an anonymous Authentication object will be put there.
 		8. ExceptionTranslationFilter, to catch any Spring Security exceptions so that either an HTTP error response can be returned or an appropriate AuthenticationEntryPoint can be launched.
-		9. FilterSecurityInterceptor, to protect web URIs and raise exceptions when access is denied. 
+		9. FilterSecurityInterceptor, to protect web URIs and raise exceptions when access is denied.
+	5. The above point which can be done also in a Oauth2 Aurhotization Server. To do this, you only need to create a class which extends AuthorizationServerSecurityConfiguration and to override the method configure(HttpSecurity http) by calling super.configure(http) and adding the filter in http object with addFilterAfter, addFilterBefore, addFilterAt and addFilter.
+	6. In the Resource Server you can do it in configure(HttpSecurity http) method as before.
 
 # Listeners
 - It is easy to declare a listener. Just to declare a class which implements ServletContextListener and to declare a @Bean inside @Configuration context which returns a ServletListenerRegistrationBean. To access the Servlet context just to use getServletContext() method.
