@@ -181,6 +181,7 @@ PASSWORD,REFRESH TOKEN GRANTS
 9. Access /private with standard user token -> FORBIDDEN (403).
 10. Access /private with admin user token out of date -> UNAUTHORIZED (401).
 11. Access /private with admin user refresh token -> OK (200).
+12. Access /cities with admin user token with no changes to the resource -> First access 200 (OK). Second access (with If-None-Match in header) 304 (NOT_MODIFIED).
 
 CLIENT_CREDENTIAL GRANT WITH NO ADMIN CLIENT
 1. Get token with wrong authentication -> UNAUTHORIZED (401).
