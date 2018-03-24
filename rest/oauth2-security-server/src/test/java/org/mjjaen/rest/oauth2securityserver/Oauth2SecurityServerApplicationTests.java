@@ -155,7 +155,7 @@ public class Oauth2SecurityServerApplicationTests {
 	}
 	
 	@Test
-	public void test09SecureResourcePrivateWithAdminAuthentication() {
+	public void test08SecureResourcePrivateWithAdminAuthentication() {
 		Response response = RestAssured.given()
 				.header(new Header("Authorization", getBearerStringToken(accessTokenAdmin)))
 				.header(headerContentType)
@@ -164,7 +164,7 @@ public class Oauth2SecurityServerApplicationTests {
 	}
 	
 	@Test
-	public void test10SecureResourcePrivateWithUserAuthentication() {
+	public void test09SecureResourcePrivateWithUserAuthentication() {
 		Response response = RestAssured.given()
 				.header(new Header("Authorization", getBearerStringToken(accessTokenUser)))
 				.header(headerContentType)
@@ -173,7 +173,7 @@ public class Oauth2SecurityServerApplicationTests {
 	}
 	
 	@Test
-	public void test11SecureResourcePrivateWithAdminAuthenticationTokenOutOfDate() throws InterruptedException {
+	public void test10SecureResourcePrivateWithAdminAuthenticationTokenOutOfDate() throws InterruptedException {
 		TimeUnit.SECONDS.sleep(10);
 		Response response = RestAssured.given()
 				.header(new Header("Authorization", getBearerStringToken(accessTokenAdmin)))
@@ -183,7 +183,7 @@ public class Oauth2SecurityServerApplicationTests {
 	}
 	
 	@Test
-	public void test12SecureResourcePrivateWithAdminAuthenticationRefreshToken() throws InterruptedException {
+	public void test11SecureResourcePrivateWithAdminAuthenticationRefreshToken() throws InterruptedException {
 		TimeUnit.SECONDS.sleep(10);
 		
 		Response response = obtainAccessToken(CLIENT_PASSWORD_GRANT, PASSWORD_CLIENT_PASSWORD_GRANT, null, null, GRANT_REFRESH_TOKEN, accessTokenAdmin);
@@ -203,13 +203,13 @@ public class Oauth2SecurityServerApplicationTests {
 	 * Client_credentials grant tests
 	 */
 	@Test
-	public void test13GetTokenWithWrongAuthentication() {
+	public void test12GetTokenWithWrongAuthentication() {
 		Response response = obtainAccessToken(WRONG_CLIENT_CLIENT_CREDENTIALS_GRANT, PASSWORD_CLIENT_CLIENT_CREDENTIALS_GRANT, null, null, GRANT_CLIENT_CREDENTIALS, null);
 		assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getStatusCode());
 	}
 	
 	@Test
-	public void test14GetTokenWithGoodAuthentication() {
+	public void test13GetTokenWithGoodAuthentication() {
 		Response response = obtainAccessToken(CLIENT_CLIENT_CREDENTUALS_GRANT, PASSWORD_CLIENT_CLIENT_CREDENTIALS_GRANT, null, null, GRANT_CLIENT_CREDENTIALS, null);
 		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
 		assertTrue(response.as(AccessToken.class).getRefresh_token() == null);
@@ -217,7 +217,7 @@ public class Oauth2SecurityServerApplicationTests {
 	}
 	
 	@Test
-	public void test15SecureResourceCityWithClientAuthentication() {
+	public void test14SecureResourceCityWithClientAuthentication() {
 		Response response = RestAssured.given()
 				.header(new Header("Authorization", getBearerStringToken(accessTokenClient)))
 				.header(headerContentType)
@@ -228,6 +228,15 @@ public class Oauth2SecurityServerApplicationTests {
 				.header(headerContentType)
 				.get(this.host.concat("/cities/1"));
 		assertEquals(response.getStatusCode(), HttpStatus.OK.value());
+	}
+	
+	@Test
+	public void test15SecureResourcePrivateWithClientNoAdminAuthentication() {
+		Response response = RestAssured.given()
+				.header(new Header("Authorization", getBearerStringToken(accessTokenClient)))
+				.header(headerContentType)
+				.get(this.host.concat("/private"));
+		assertEquals(response.getStatusCode(), HttpStatus.FORBIDDEN.value());
 	}
 	
 	/*

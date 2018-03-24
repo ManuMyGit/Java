@@ -36,5 +36,5 @@ INSERT INTO oauth_client_details
 VALUES
     (2, 'clientoauth2jwtclient', 'resourceId1', '$2a$06$lqPwi/4gpoVg7fBdJmtLSejUK0FKCtEBzYzEy84z1CXOG.GU/f2ra',
     'read,write', 'client_credentials',
-    null, 'ADMIN_USER', 100, 
+    null, 'STANDARD_USER', 100, 
     null, null, true);
