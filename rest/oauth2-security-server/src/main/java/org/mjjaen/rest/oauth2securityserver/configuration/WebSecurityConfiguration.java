@@ -2,6 +2,8 @@ package org.mjjaen.rest.oauth2securityserver.configuration;
 
 import java.util.Arrays;
 
+import javax.servlet.Filter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +20,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -29,6 +32,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier(value="userService")
     private UserDetailsService userDetailsService;
+    
+    @Autowired
+    private Filter loggerFilter;
 
     @Value("${security.security-realm}")
     private String securityRealm;
@@ -66,6 +72,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
        http
        	//.anonymous().disable()
+       	.addFilterBefore(loggerFilter, SecurityContextPersistenceFilter.class)
        	.sessionManagement()
        	.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
        	.and()
@@ -75,7 +82,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
        	.cors() //Cross Origin Resource Sharing
        	.and()
        	.csrf().disable(); //Cross Site Request Forgery
-
     }
     
 	@Bean

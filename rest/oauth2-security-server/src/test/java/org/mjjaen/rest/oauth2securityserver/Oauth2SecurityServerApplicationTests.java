@@ -41,7 +41,7 @@ public class Oauth2SecurityServerApplicationTests {
 	private String uriAccessToken;
 	private Header headerContentType;
 	
-	private static final String CLIENT_PASSWORD_GRANT = "clientoauth2jwtpassword";
+	private static final String CLIENT_PASSWORD_GRANT = "clientoauth2jwtpasswordtest";
 	private static final String PASSWORD_CLIENT_PASSWORD_GRANT = "XY7kmzoNzl100";
 	private static final String WRONG_CLIENT_PASSWORD_GRANT = "otherclient";
 	
@@ -296,6 +296,27 @@ public class Oauth2SecurityServerApplicationTests {
 	public void test19SecureResourceUserWithNoAuthentication() {
 		Response response = RestAssured.given().header(headerContentType).get(this.host.concat("/users"));
 		assertEquals(response.getStatusCode(), HttpStatus.UNAUTHORIZED.value());
+	}
+	
+	@Test
+	public void test20Etag() {
+		Response response = obtainAccessToken(CLIENT_PASSWORD_GRANT, PASSWORD_CLIENT_PASSWORD_GRANT, USER_ADMIN, PASSWORD_USER_ADMIN, GRANT_PASSWORD, null);
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		AccessToken accessToken = response.as(AccessToken.class);
+		assertNotNull(accessToken);
+		accessTokenAdmin = accessToken;
+		response = RestAssured.given()
+				.header(new Header("Authorization", getBearerStringToken(accessTokenAdmin)))
+				.header(headerContentType)
+				.get(this.host.concat("/cities"));
+		assertEquals(HttpStatus.OK.value(), response.getStatusCode());
+		String eTag = response.getHeader("etag");
+		response = RestAssured.given()
+				.header(new Header("Authorization", getBearerStringToken(accessTokenAdmin)))
+				.header(headerContentType)
+				.header(new Header("If-None-Match", eTag))
+				.get(this.host.concat("/cities"));
+		assertEquals(HttpStatus.NOT_MODIFIED.value(), response.getStatusCode());
 	}
 	
 	private Response obtainAccessToken(String clientId, String clientPassword, String userName, String password, String grantType, AccessToken accessToken) {
