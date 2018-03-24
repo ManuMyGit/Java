@@ -15,6 +15,6 @@ public class Oauth2SecurityServerApplication {
 	
 	@Autowired
 	public void authenticationManager(AuthenticationManagerBuilder builder, UserRepository userRepository) throws Exception {
-		builder.userDetailsService(username -> new CustomUserDetails(userRepository.findByUsername(username)));
+		builder.userDetailsService(username -> new CustomUserDetails(userRepository.findByUserName(username)));
 	}
 }

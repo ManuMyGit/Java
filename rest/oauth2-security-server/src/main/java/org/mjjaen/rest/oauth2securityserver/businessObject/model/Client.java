@@ -14,34 +14,45 @@ public class Client {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	private Integer id;
+	
 	@Column
 	@Basic
 	private String client_id;
+	
 	@Column
 	@Basic
     private String resource_ids;
+	
 	@Column
 	@Basic
     private String client_secret;
+	
 	@Column
 	@Basic
     private String scope;
+	
 	@Column
 	@Basic
     private String authorized_grant_types;
+	
 	@Column
 	@Basic
     private String web_server_redirect_uri;
+	
 	@Column
 	@Basic
     private String authorities;
+	
 	@Column
     private Integer access_token_validity;
+	
 	@Column
     private Integer refresh_token_validity;
+	
 	@Column
 	@Basic
     private String additional_information;
+	
 	@Column
 	@Basic
     private String autoapprove;
@@ -164,7 +175,7 @@ public class Client {
 	public void setAutoapprove(String autoapprove) {
 		this.autoapprove = autoapprove;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

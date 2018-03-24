@@ -20,9 +20,9 @@ public class User {
 	@Id
 	@GeneratedValue(strategy= GenerationType.AUTO)
 	private Integer id;
-	@Column
+	@Column(name="username")
 	@Basic
-	private String username;
+	private String userName;
 	@Column
 	@Basic
 	@JsonIgnore
@@ -39,19 +39,19 @@ public class User {
 		super();
 	}
 	
-	public User(Integer id, String username, String password, long salary, Integer age) {
+	public User(Integer id, String userName, String password, long salary, Integer age) {
 		super();
 		this.id = id;
-		this.username = username;
+		this.userName = userName;
 		this.password = password;
 		this.salary = salary;
 		this.age = age;
 	}
 	
-	public User(Integer id, String username, String password, long salary, Integer age, List<Role> roles) {
+	public User(Integer id, String userName, String password, long salary, Integer age, List<Role> roles) {
 		super();
 		this.id = id;
-		this.username = username;
+		this.userName = userName;
 		this.password = password;
 		this.salary = salary;
 		this.age = age;
@@ -66,12 +66,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {

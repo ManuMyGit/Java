@@ -19,8 +19,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	private UserRepository userRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username);
+	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+		User user = userRepository.findByUserName(userName);
 		if(user == null){
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
@@ -42,6 +42,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 	@Override
 	public void delete(Integer id) {
 		userRepository.deleteById(id);
+	}
+	
+	@Override
+	public User findByUserName(String userName) {
+		return userRepository.findByUserName(userName);
 	}
 
 	public UserRepository getUserRepository() {

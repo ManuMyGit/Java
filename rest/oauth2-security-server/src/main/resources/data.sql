@@ -19,12 +19,22 @@ INSERT INTO City (id, name, country) VALUES (4, 'New York', 'USA');
 -- Client
 -- non-encrypted password: XY7kmzoNzl100
 INSERT INTO oauth_client_details
-    (id, client_id, client_secret,
+    (id, client_id, resource_ids, client_secret,
     scope, authorized_grant_types,
     web_server_redirect_uri, authorities, access_token_validity,
     refresh_token_validity, additional_information, autoapprove)
 VALUES
-    (1, 'clientoauth2jwt', '$2a$06$lqPwi/4gpoVg7fBdJmtLSejUK0FKCtEBzYzEy84z1CXOG.GU/f2ra',
+    (1, 'clientoauth2jwtpassword', 'resourceId1', '$2a$06$lqPwi/4gpoVg7fBdJmtLSejUK0FKCtEBzYzEy84z1CXOG.GU/f2ra',
     'read,write', 'password,refresh_token',
-    null, null, 10,
+    null, null, 10, 
     600, null, true);
+INSERT INTO oauth_client_details
+    (id, client_id, resource_ids, client_secret,
+    scope, authorized_grant_types,
+    web_server_redirect_uri, authorities, access_token_validity,
+    refresh_token_validity, additional_information, autoapprove)
+VALUES
+    (2, 'clientoauth2jwtclient', 'resourceId1', '$2a$06$lqPwi/4gpoVg7fBdJmtLSejUK0FKCtEBzYzEy84z1CXOG.GU/f2ra',
+    'read,write', 'client_credentials',
+    null, 'ADMIN_USER', 100, 
+    null, null, true);

@@ -87,3 +87,59 @@ To dedice this, you can use the following diagram:
     6. When the access token is invalid, the server informs to the client.
     7. The client use the refresh token to get a new access token (just with the refresh token).
     8. The authentication server validates to the client and the refresh token. If so, it returns a new access token.
+
+# Retrieve User and Authentication
+- There are several ways to retrieve user and authentication object in controller
+	- User
+		1. As a method argument in controller method: Principal user
+		2. From Authentication object (see how to retrieve Authentication object): auth.getPrincipal()
+		3. From the HttpServletRequest object (which can be retrieve as a method argument as HttpServletRequest request): request.getUserPrincipal()
+	- Authentication
+		1. As a method argument in controller method: Authentication auth
+		2. From static context: SecurityContextHolder.getContext().getAuthentication()
+		- Properties of Authentication
+			- Credentials
+			- Details
+				- Cast to OAuth2AuthenticationDetails to access the following properties:
+					- DecodedDetails (Object)
+					- RemoteAddress (String)
+					- SessionId (String)
+					- TokenType (String)
+					- TokenValue (String)
+			- Name
+			- Principal
+			- Authorities (Collection<? extends GrantedAuthority>)
+	- OAuth2Authentication
+		1. As a method argument in controller method: OAuth2Authentication auth
+		2. From static context: (OAuth2Authentication)SecurityContextHolder.getContext().getAuthentication() (cast needed)
+		- Properties of OAuth2Authentication:
+			- OAuth2Authentication extends AbstractAuthenticationToken which implements Authentication
+			- UserAuthentication (Authentication)
+			- OAuth2Request (OAuth2Request)
+				- ClientId (String)
+				- GrantType (String)
+				- RedirectUrl (String)
+				- Authorities (Collection<? extends GrantedAuthority>)
+				- Extensions (Map<String, Serializable>)
+				- RefreshTokenRequest (TokenRequest)
+					- ClientId (String)
+					- GrantType (String)
+					- RequestParameters (Map<String, String>)
+					- Scope (Set<String>)
+				- RequestParameters (Map<String, String>)
+				- ResourceIds (Set<String>)
+				- ResponseType (Set<String>)
+				- Scope (Set<String>)
+
+# How to access token information in Resource Server
+- In the previous point, you could see how to retrieve OAuth2AuthenticationDetails (details). One you do that, you can access token information through TokenStore:
+	- OAuth2AccessToken accessToken = tokenStore.readAccessToken(details.getTokenValue());
+	- These are the main properties:
+		- AdditionalInformation (Map<String, Object>)
+		- Expiration (Date)
+		- ExpiresIn (int)
+		- RefreshToken (OAuth2RefreshToken)
+			- Value (String)
+		- Scope (Set<String>)
+		- TokenType (String)
+		- Value (String)
