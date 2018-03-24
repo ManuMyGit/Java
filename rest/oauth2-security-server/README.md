@@ -10,12 +10,17 @@
     - In the code you can check how to use inMemory clients.
     - Resources are protected by authorities (roles), but in the code you can check also how to use scopes (read, write, ...).
     - A complete set of integration tests to test public and private tests, taking into account the authorities to access those resources as well as to test refresh token.
-    - Client-credentials and password grants.
+    - Client-credentials and password,refresh_token grants.
     - URIs
-    	- /public (public access)
-    	- /private (just ADMIN users)
-    	- /cities and /cities/{id} (ADMIN and STANDARD users)
+    	- /public (GET, public access)
+    	- /private (GET, just ADMIN users)
+    	- /cities and /cities/{id} (GET, ADMIN and STANDARD users)
+	- /users (GET, ADMIN and STANDARD users)
     	- /oauth/token (to get access token)
+	- Client password and refresh_token grant: clientoauth2jwtpassword/XY7kmzoNzl100
+	- Client client_credentials grant: clientoauth2jwtclient/XY7kmzoNzl100
+	- User Admin: User1/jwtpass
+	- User Standard: User2/jwtpass
 
 # Definition
 - OAuth 2 is an authorization framework that enables applications to obtain limited access to user accounts without using directly user credentials. It works by delegating user authentication to the service that hosts the user account, and authorizing third-party applications to access the user account. Oauth2 is based on roles and grant types.
@@ -132,7 +137,7 @@ To dedice this, you can use the following diagram:
 				- Scope (Set<String>)
 
 # How to access token information in Resource Server
-- In the previous point, you could see how to retrieve OAuth2AuthenticationDetails (details). One you do that, you can access token information through TokenStore:
+- In the previous point, you could see how to retrieve OAuth2AuthenticationDetails (details). Once you do that, you can access token information through TokenStore:
 	- OAuth2AccessToken accessToken = tokenStore.readAccessToken(details.getTokenValue());
 	- These are the main properties:
 		- AdditionalInformation (Map<String, Object>)
@@ -143,3 +148,29 @@ To dedice this, you can use the following diagram:
 		- Scope (Set<String>)
 		- TokenType (String)
 		- Value (String)
+
+# Integration tests included
+PASSWORD,REFRESH TOKEN GRANTS
+1. Access /public resource with no user -> OK (200).
+2. Access /private resource with no user -> UNAUTHORIZED (401).
+3. Access /cities and /cities/1 with no user -> UNAUTHORIZED (401).
+4. Get token to admin and standard users with correct authentication -> OK (200).
+5. Get token with wrong authentication -> UNAUTHORIZED (401).
+6. Access /cities and /cities/1 with admin user token -> OK (200).
+7. Access /cities and /cities/1 with standard user token -> OK (200).
+8. Access /private with admin user token -> OK (200).
+9. Access /private with standard user token -> FORBIDDEN (403).
+10. Access /private with admin user token out of date -> UNAUTHORIZED (401).
+11. Access /private with admin user refresh token -> OK (200).
+
+CLIENT_CREDENTIAL GRANT WITH NO ADMIN CLIENT
+1. Get token with wrong authentication -> UNAUTHORIZED (401).
+2. Get token with correcto authentication -> OK (200).
+3. Access /cities and /cities/1 with client token -> OK (200).
+4. Access /private with client no admin token -> FORBIDDEN (403).
+
+USERS
+1. Access /users with password grant and admin user -> OK (200).
+2. Access /users with password grant and standard user -> OK (200).
+3. Access /users with client_credentials grant -> OK (200).
+4. Access /users with with no user -> UNAUTHORIZED (401).
