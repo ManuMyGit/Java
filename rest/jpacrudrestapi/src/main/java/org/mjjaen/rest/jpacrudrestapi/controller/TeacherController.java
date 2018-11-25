@@ -3,6 +3,7 @@ package org.mjjaen.rest.jpacrudrestapi.controller;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,7 +11,9 @@ import java.util.Optional;
 import javax.validation.Valid;
 import org.mjjaen.rest.jpacrudrestapi.common.exceptions.DataNotFoundException;
 import org.mjjaen.rest.jpacrudrestapi.model.businessObject.Teacher;
+import org.mjjaen.rest.jpacrudrestapi.model.dto.TeacherDto;
 import org.mjjaen.rest.jpacrudrestapi.model.service.TeacherService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.mvc.ControllerLinkBuilder;
@@ -30,6 +33,9 @@ public class TeacherController {
 	@Autowired
 	private TeacherService teacherService;
 	
+	@Autowired
+    private ModelMapper modelMapper;
+	
 	@GetMapping
 	public List<Resource<Teacher>> getAllTeachers(@RequestParam(required=false, defaultValue="false") boolean order, @RequestParam(required=false, defaultValue="nombre") String field) {
 		List<Resource<Teacher>> listaResource = new ArrayList<Resource<Teacher>>();
@@ -47,17 +53,18 @@ public class TeacherController {
 	}
 	
 	@GetMapping(path="/{id}")
-	public Resource<Teacher> getOneTeacher(@PathVariable(required= true) Integer id) {
+	public Resource<TeacherDto> getOneTeacher(@PathVariable(required= true) Integer id) {
 		Optional<Teacher> teacher = teacherService.findOneTeacher(id);
 		if(teacher.isPresent())
-			return getResourceFromTeacher(teacher.get());
+			return getResourceFromTeacher(convertToDto(teacher.get()));
 		else
 			throw new DataNotFoundException(String.format("[id=%s] doesn't exist", id));
 	}
 	
 	@PostMapping
-	public Resource<Teacher> createTeacher(@Valid @RequestBody Teacher teacher) {
-		return getResourceFromTeacher(teacherService.save(teacher));
+	public Resource<TeacherDto> createTeacher(@Valid @RequestBody TeacherDto teacherDto) throws ParseException {
+		Teacher teacher = convertToEntity(teacherDto);
+		return getResourceFromTeacher(convertToDto(teacherService.save(teacher)));
 	}
 	
 	@PutMapping(path="/{id}")
@@ -87,5 +94,22 @@ public class TeacherController {
 		ControllerLinkBuilder linkToSelf = linkTo(methodOn(this.getClass()).getOneTeacher(teacher.getId()));
 		resource.add(linkToSelf.withSelfRel());
 		return resource;
+	}
+	
+	private Resource<TeacherDto> getResourceFromTeacher(TeacherDto teacher) {
+		Resource<TeacherDto> resource = new Resource<TeacherDto>(teacher);
+		ControllerLinkBuilder linkToSelf = linkTo(methodOn(this.getClass()).getOneTeacher(teacher.getId()));
+		resource.add(linkToSelf.withSelfRel());
+		return resource;
+	}
+	
+	private TeacherDto convertToDto(Teacher teacher) {
+		TeacherDto teacherDto = modelMapper.map(teacher, TeacherDto.class);
+	    return teacherDto;
+	}
+	
+	private Teacher convertToEntity(TeacherDto teacherDto) throws ParseException {
+		Teacher teacher = modelMapper.map(teacherDto, Teacher.class);
+	    return teacher;
 	}
 }
